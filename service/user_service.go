@@ -83,6 +83,7 @@ func CheckJWTToken(userId int) (user User, err error) {
 	db := db.GetDB()
 
 	result := db.Where(&User{Id: uint(userId)}).Find(&user)
+	fmt.Println("check", user)
 
 	if result.Error != nil {
 		return user, err

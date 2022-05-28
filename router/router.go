@@ -22,6 +22,8 @@ func Router() {
 			"POST",
 			"GET",
 			"OPTIONS",
+			"PUT",
+			"DELETE",
 		},
 		// 許可したいHTTPリクエストヘッダ
 		AllowHeaders: []string{
@@ -37,13 +39,18 @@ func Router() {
 		// preflightリクエストの結果をキャッシュする時間
 		MaxAge: 24 * time.Hour,
 	}))
-	// r.GET("/", func(c *gin.Context) {
-	// 	c.JSON(200, gin.H{
-	// 		"message":"Hello",
-	// 	})
-	// })
 
 	apiV1 := r.Group("/api")
+
+	apiV1.GET("/thesis", controller.GetAllThesis)
+	apiV1.PUT("/thesis/create", controller.CreateThesis)
+	apiV1.PUT("/thesis/update/:id", controller.UpdateThesis)
+	apiV1.DELETE("/thesis/delete/:id", controller.DeleteThesis)
+
+	apiV1.GET("/tag", controller.GetAllTag)
+	// apiV1.PUT("/tag/create", controller.Createtag)
+	// apiV1.PUT("/tag/update:id", controller.Updatetag)
+	// apiV1.DELETE("/tag/delete/id", controller.Deletetag)
 
 	apiV1.POST("/login", controller.Controller{}.Login)
 	apiV1.POST("/register", controller.Controller{}.Register)
@@ -51,20 +58,3 @@ func Router() {
 
 	r.Run()
 }
-
-// CORS
-// func cors() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-// 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-// 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-// 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-
-// 		if c.Request.Method == "OPTIONS" {
-// 			c.AbortWithStatus(http.StatusNoContent)
-// 			return
-// 		}
-
-// 		c.Next()
-// 	}
-// }
