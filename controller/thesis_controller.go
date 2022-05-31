@@ -41,14 +41,19 @@ func CreateThesis(c *gin.Context) {
 
 	//TODO
 	thesis := service.Thesis{}
-	
+
 	thesis.UserId = int(user.Id)
-	now := time.Now()
 	// thesis.TagId = nil
+	// jst, err := time.LoadLocation("Asia/Tokyo")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// time.Local = jst
+	now := time.Now()
+	// fmt.Prontln(thesis)
 	thesis.CreatedAt = now
 	thesis.UpdatedAt = now
 	err := c.BindJSON(&thesis)
-	
 
 	if err != nil {
 		panic("unMarchal")
@@ -56,7 +61,6 @@ func CreateThesis(c *gin.Context) {
 
 	createdThesis, err := service.CreateThesis(thesis)
 
-	fmt.Println(createdThesis)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -93,7 +97,6 @@ func DeleteThesis(c *gin.Context) {
 
 	id := c.Param("id")
 
-	fmt.Println("###########delete", id)
 	err := service.DeleteThesis(id)
 
 	if err != nil {

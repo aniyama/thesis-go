@@ -19,7 +19,7 @@ func GetAllThesis(id uint) ([]Thesis, error) {
 
 	var theses []Thesis
 
-	result := db.Where("user_id = ?", id).Find(&theses)
+	result := db.Where("user_id = ?", id).Order("id desc").Find(&theses)
 	fmt.Printf("%T\n", theses)
 
 	if result.Error != nil {

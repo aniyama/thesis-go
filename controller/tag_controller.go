@@ -2,7 +2,6 @@ package controller
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,85 +16,88 @@ type Tag entity.Tag
 func GetAllTag(c *gin.Context) {
 	user, err := verifyJWTToken(c)
 	if err != nil {
-		panic("aaaaaad")
+		c.JSON(http.StatusBadRequest, gin.H{"message": err})
+		return
 	}
+
+	tag := service.Tag{}
+	tag.UserId = int(user.Id)
 
 	tagList, err := service.GetAllTag(user.Id)
 
 	fmt.Println(tagList)
 	if err != nil {
-		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{"message": err})
+		return
 	}
 
 	c.JSON(http.StatusOK, tagList)
 }
 
-// func CreateTag(c *gin.Context) {
-// 	user, errr := verifyJWTToken(c)
-// 	if errr != nil {
-// 		panic("aaaaaad")
-// 	}
+func CreateTag(c *gin.Context) {
+	user, errr := verifyJWTToken(c)
+	if errr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": errr})
+		return
+	}
+	//TODO
+	tag := service.Tag{}
+	
+	tag.UserId = int(user.Id)
+	err := c.BindJSON(&tag)
 
-// 	//TODO
-// 	Tag := service.Tag{}
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err})
+		return
+	}
 
-// 	Tag.UserId = int(user.Id)
-// 	err := c.BindJSON(&Tag)
-// 	if err != nil {
-// 		panic("unMarchal")
-// 	}
+	createdTag, err := service.CreateTag(tag)
 
-// 	createdTag, err := service.CreateTag(Tag)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err})
+		return
+	}
 
-// 	fmt.Println(createdTag)
-// 	if err != nil {
-// 		log.Fatalln(err)
-// 	}
+	c.JSON(http.StatusOK, createdTag)
+}
 
-// 	c.JSON(http.StatusOK, createdTag)
-// }
+func UpdateTag(c *gin.Context) {
 
-// func UpdateTag(c *gin.Context) {
+	user, errr := verifyJWTToken(c)
+	if errr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": errr})
+		return
+	}
 
-// 	user, errr := verifyJWTToken(c)
-// 	if errr != nil {
-// 		panic("aaaaaad")
-// 	}
+	//TODO
+	tag := service.Tag{}
+	id := c.Param("id")
 
-// 	//TODO
-// 	Tag := service.Tag{}
+	updatedTag, err := service.UpdateTag(id, tag, int(user.Id), c)
 
-// 	Tag.UserId = int(user.Id)
-// 	id := c.Param("id")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err})
+		return
+	}
 
-// 	err := c.BindJSON(&Tag)
-// 	if err != nil {
-// 		panic("unMarchal")
-// 	}
+	c.JSON(http.StatusOK, updatedTag)
+}
 
-// 	updatedTag, err := service.UpdateTag(id, Tag)
+func DeleteTag(c *gin.Context) {
+	_, errr := verifyJWTToken(c)
+	if errr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": errr})
+		return
+	}
 
-// 	fmt.Println(updatedTag)
-// 	if err != nil {
-// 		log.Println(err)
-// 	}
+	id := c.Param("id")
 
-// 	c.JSON(http.StatusOK, updatedTag)
-// }
+	err := service.DeleteTag(id)
 
-// func DeleteTag(c *gin.Context) {
-// 	_, errr := verifyJWTToken(c)
-// 	if errr != nil {
-// 		panic("aaaaaad")
-// 	}
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err})
+		return
+	}
 
-// 	id := c.Param("id")
-
-// 	err := service.DeleteTag(id)
-
-// 	if err != nil {
-// 		log.Println(err)
-// 	}
-
-// 	c.JSON(http.StatusOK, "")
-// }
+	c.JSON(http.StatusOK, "")
+}

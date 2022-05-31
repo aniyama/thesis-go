@@ -2,9 +2,9 @@ package service
 
 import (
 	"fmt"
-
 	"github.com/aniyama/thesis-go/db"
 	"github.com/aniyama/thesis-go/entity"
+	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
@@ -17,8 +17,7 @@ func GetAllTag(id uint) ([]Tag, error) {
 
 	var tag []Tag
 
-	result := db.Where("user_id = ?", id).Find(&tag)
-	fmt.Printf("##################", tag)
+	result := db.Where("user_id = ?", id).Order("id desc").Find(&tag)
 
 	if result.Error != nil {
 		return tag, result.Error
@@ -27,45 +26,52 @@ func GetAllTag(id uint) ([]Tag, error) {
 	return tag, nil
 }
 
-// func CreateTag(Tag Tag) (Tag, error) {
-// 	// DB接続
-// 	db := db.GetDB()
+func CreateTag(tag Tag) (Tag, error) {
+	// DB接続
+	db := db.GetDB()
 
-// 	result := db.Create(&Tag)
+	result := db.Create(&tag)
 
-// 	if result.Error != nil {
-// 		fmt.Println("fail")
-// 		return Tag, result.Error
-// 	}
+	if result.Error != nil {
+		return tag, result.Error
+	}
 
-// 	return Tag, nil
-// }
+	return tag, nil
+}
 
-// func UpdateTag(id string, Tag Tag) (Tag, error) {
-// 	// DB接続
-// 	db := db.GetDB()
+func UpdateTag(id string, tag Tag, userId int, c *gin.Context) (Tag, error) {
+	// DB接続
+	db := db.GetDB()
 
-// 	result := db.Where("id = ?", id).First(&Tag).Updates(&Tag)
+	result := db.First(&tag, id)
 
-// 	if result.Error != nil {
-// 		fmt.Println("fail")
-// 		return Tag, result.Error
-// 	}
+	tag.UserId = userId
+	err := c.BindJSON(&tag)
+	fmt.Println(tag, err)
+	if err != nil {
+		return tag, err
+	}
 
-// 	return Tag, nil
-// }
+	db.Save(&tag)
 
-// func DeleteTag(id string) error {
+	if result.Error != nil {
+		return tag, result.Error
+	}
 
-// 	// DB接続
-// 	db := db.GetDB()
-// 	var Tag Tag
+	return tag, nil
+}
 
-// 	result := db.Where("id = ?", id).Delete(&Tag)
+func DeleteTag(id string) error {
 
-// 	if result.Error != nil {
-// 		return result.Error
-// 	}
+	// DB接続
+	db := db.GetDB()
+	var Tag Tag
 
-// 	return nil
-// }
+	result := db.Where("id = ?", id).Delete(&Tag)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}

@@ -2,8 +2,7 @@ package entity
 
 type Tag struct {
 	Id         int    `json:"id"`
-	TagTitle   string `json:"title"`
-	UserId     string `json:"userId"`
-	CategoryId string `json:"categoryId"`
+	Title      string `json:"title"`
+	UserId     int    `json:"userId"`
+	CategoryId int    `json:"categoryId"`
 }
-

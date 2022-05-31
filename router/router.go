@@ -48,13 +48,15 @@ func Router() {
 	apiV1.DELETE("/thesis/delete/:id", controller.DeleteThesis)
 
 	apiV1.GET("/tag", controller.GetAllTag)
-	// apiV1.PUT("/tag/create", controller.Createtag)
-	// apiV1.PUT("/tag/update:id", controller.Updatetag)
-	// apiV1.DELETE("/tag/delete/id", controller.Deletetag)
+	apiV1.PUT("/tag/create", controller.CreateTag)
+	apiV1.PUT("/tag/update/:id", controller.UpdateTag)
+	apiV1.DELETE("/tag/delete/:id", controller.DeleteTag)
 
 	apiV1.POST("/login", controller.Controller{}.Login)
 	apiV1.POST("/register", controller.Controller{}.Register)
 	apiV1.POST("/logout", controller.Logout)
+
+	apiV1.GET("/category", controller.GetAllCategory)
 
 	r.Run()
 }
