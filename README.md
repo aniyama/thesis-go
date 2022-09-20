@@ -10,4 +10,3 @@ Inplemented clean architecture
 
 # next-todo
 1. authorization: cognito or change danger github.com/dgrijalva/jwt-go　for golang-jwt
-2. graphQL
