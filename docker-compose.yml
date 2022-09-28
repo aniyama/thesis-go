@@ -1,0 +1,71 @@
+version: "3"
+
+volumes:
+  mysql_data:
+  test_mysql_data:
+
+services:
+  go:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: dev
+    container_name: ${GO_CONTAINER_NAME_DEV}
+    volumes:
+      - ./:/go/src/app
+    environment:
+      - "TZ=Asia/Tokyo"
+      - GOLANG_ENV=${GO_ENV_DEV}
+    env_file:
+      - ./mysql/.env
+    ports:
+      - ${GO_PORT_DEV}:8080
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - back-tier-dev
+
+  db:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: ${DB_CONTAINER_NAME_DEV}
+    tty: true
+    stdin_open: true
+    env_file:
+      - ./mysql/.env
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake --default-time-zone=Asia/Tokyo
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+    ports:
+      - ${DB_PORT_DEV}:3306
+    networks:
+      - back-tier-dev
+
+  test-db:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: ${TEST_DB_CONTAINER_NAME_DEV}
+    tty: true
+    stdin_open: true
+    env_file:
+      - ./mysql/.env
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake --default-time-zone=Asia/Tokyo
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - test_mysql_data:/var/lib/mysql
+    ports:
+      - ${TEST_DB_PORT_DEV}:3306
+    networks:
+      - back-tier-dev
+
+networks:
+  back-tier-dev:
+    driver: bridge
+    name: back-tier-dev

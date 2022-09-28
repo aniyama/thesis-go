@@ -31,25 +31,22 @@ func (repo *LoginRepository) Login(ctx context.Context, user *entities.User) (*e
 	return &userForGorm, nil
 }
 
-func (repo *LoginRepository) GetUserByName(ctx context.Context, name string) (user *entities.User, err error) {
-
+func (repo *LoginRepository) GetUserByName(ctx context.Context, name string) (*entities.User, error) {
 	db := repo.GetDB()
 
 	var userForGorm entities.User
-	result := db.Where(&entities.User{Name: name}).First(&userForGorm)
-
+	result := db.Where("name = ?", name).First(&userForGorm)
 	if result.Error != nil {
-		return user, result.Error
+		return &userForGorm, result.Error
 	}
-	return user, nil
+
+	return &userForGorm, nil
 
 }
 
 func (repo *LoginRepository) CreateUser(ctx context.Context, user *entities.User) (userId int64, err error) {
-
 	db := repo.GetDB()
-
-	result := db.Create(&user)
+	result := db.Create(user)
 
 	if result.Error != nil {
 		return int64(user.Id), result.Error

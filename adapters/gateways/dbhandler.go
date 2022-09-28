@@ -1,6 +1,6 @@
 package gateways
 
-import "github.com/jinzhu/gorm"
+import "gorm.io/gorm"
 
 type DbHandler interface {
 	GetDB() *gorm.DB

@@ -1,11 +1,12 @@
 package middlewares
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type CheckToken interface {
@@ -42,6 +43,21 @@ func (u *CheckTokenMiddleware) CheckTokenMiddleware() {
 			c.Abort()
 			return
 		}
+
+		fmt.Print("86868686868")
+
+		// 有効期限
+		// claims := token.Claims.(*Claims)
+		// expiresAt := claims.ExpiresAt
+		// now := time.Now().Unix()
+		// fmt.Print("#####", expiresAt, now)
+		// if now > expiresAt {
+		// 	c.JSON(http.StatusInternalServerError, gin.H{
+		// 		"error": err.Error(),
+		// 	})
+		// 	c.Abort()
+		// 	return
+		// }
 
 		c.Next()
 	})

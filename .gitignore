@@ -2,4 +2,8 @@
 
 tmp
 
+/.env
 /dev.env
+
+/mysql/.env
+/mysql/test.env

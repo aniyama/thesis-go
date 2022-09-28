@@ -7,7 +7,7 @@ import (
 
 	"github.com/aniyama/thesis-go/entities"
 	"github.com/aniyama/thesis-go/usecases/port"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type TagRepository struct {

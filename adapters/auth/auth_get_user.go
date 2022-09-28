@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/aniyama/thesis-go/adapters/gateways"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type AuthCheckUser struct {
