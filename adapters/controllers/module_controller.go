@@ -8,8 +8,8 @@ import (
 	"github.com/aniyama/thesis-go/adapters/gateways"
 	"github.com/aniyama/thesis-go/entities"
 	"github.com/aniyama/thesis-go/usecases/port"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type ModuleController struct {

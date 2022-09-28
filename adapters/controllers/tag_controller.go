@@ -8,8 +8,8 @@ import (
 	"github.com/aniyama/thesis-go/adapters/gateways"
 	"github.com/aniyama/thesis-go/entities"
 	"github.com/aniyama/thesis-go/usecases/port"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type TagController struct {
@@ -66,7 +66,6 @@ func (u *TagController) TagCreate() func(c *gin.Context) {
 		if err != nil {
 			u.output(c).Output400Error(err)
 		}
-
 
 		u.newTagInputPort(c).TagCreate(c.Request.Context(), Tag)
 	}

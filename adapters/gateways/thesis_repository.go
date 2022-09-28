@@ -8,7 +8,7 @@ import (
 
 	"github.com/aniyama/thesis-go/entities"
 	"github.com/aniyama/thesis-go/usecases/port"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type ThesisRepository struct {
@@ -24,14 +24,9 @@ func NewThesisRepository(dbHandler DbHandler) port.ThesisRepository {
 // 検索
 func (repo *ThesisRepository) ThesisGets(ctx context.Context, theses *[]entities.Thesis, userID int) (*[]entities.Thesis, error) {
 
-	var a []entities.Thesis
 	result := repo.GetDB().Where("user_id = ?", userID).Order("id desc").Find(theses)
-	fmt.Printf("%T\n", theses)
-	fmt.Printf("%T\n", a)
-	fmt.Printf("%T\n", &a)
 
 	if result.Error != nil {
-		fmt.Println("#########", &a, theses)
 		return theses, result.Error
 	}
 
@@ -75,27 +70,6 @@ func (repo *ThesisRepository) ThesisUpdate(ctx context.Context, thesis *entities
 
 	return thesis, nil
 }
-
-// func (repo *ThesisRepository) ThesisUpdate(ctx context.Context, id string, thesis *entities.Thesis, userId int, c *gin.Context) (*entities.Thesis, error) {
-
-// 	result := repo.GetDB().First(&thesis, id)
-
-// 	thesis.UserId = userId
-
-// 	thesis.UpdatedAt = time.Now()
-// 	err := c.BindJSON(&thesis)
-// 	if err != nil {
-// 		panic("unMarchal")
-// 	}
-
-// 	repo.GetDB().Save(&thesis)
-
-// 	if result.Error != nil {
-// 		return thesis, result.Error
-// 	}
-
-// 	return thesis, nil
-// }
 
 func (repo *ThesisRepository) ThesisDelete(ctx context.Context, thesis *entities.Thesis, thesisID string) error {
 

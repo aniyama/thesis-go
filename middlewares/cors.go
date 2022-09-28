@@ -20,6 +20,18 @@ func NewCorsMiddleware(e *gin.Engine) CorsMiddleware {
 
 func (m CorsMiddleware) Setup() {
 
+	// 	env := os.Getenv("ENV")
+	// 	allowOrigin := ""
+	// if env == "prod" {
+	// 	allowOrigins = []string{
+	// 		"https://issue.com"
+	// 	}
+	// }else {
+	// 	allowOrigins = []string{
+	// 		"https://issue.com"
+	// 	}
+	// }
+
 	m.e.Use(cors.New(cors.Config{
 		// アクセスを許可したいアクセス元
 		AllowOrigins: []string{

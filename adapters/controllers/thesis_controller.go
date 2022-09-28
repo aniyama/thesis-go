@@ -8,8 +8,8 @@ import (
 	"github.com/aniyama/thesis-go/adapters/gateways"
 	"github.com/aniyama/thesis-go/entities"
 	"github.com/aniyama/thesis-go/usecases/port"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type ThesisController struct {
@@ -37,7 +37,6 @@ func NewThesisController(dbHandler gateways.DbHandler, output ThesisOutputFactor
 
 func (u *ThesisController) ThesisGets() func(c *gin.Context) {
 	return func(c *gin.Context) {
-
 		cookie, _ := c.Cookie("jwt")
 		token, _ := jwt.ParseWithClaims(cookie, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(os.Getenv("SECRET_KEY")), nil

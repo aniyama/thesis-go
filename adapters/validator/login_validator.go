@@ -55,9 +55,9 @@ func (cm *LoginValidator) RegisterValidator(request entities.User) error {
 }
 
 func (cm *LoginValidator) ExistsUserByUserName(userName string) error {
-	user, err := gateways.NewLoginRepository(cm.dbHandler).GetUserByName(cm.ctx.Request.Context(), userName)
+	_, err := gateways.NewLoginRepository(cm.dbHandler).GetUserByName(cm.ctx.Request.Context(), userName)
 	// ユーザーがいたらアウト
-	if err == nil || user != nil {
+	if err == nil {
 		return errors.New("同じユーザーが存在します...")
 	}
 
