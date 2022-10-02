@@ -1,0 +1,31 @@
+name: Ci flow for ECS
+
+on: [push]
+
+jobs:
+  build:
+    name: build Dockerfile.prod
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: build Dockerfile.prod
+        run: docker build -t myapp -f Dockerfile.prod .
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+
+    steps:
+      - run: echo "branch... ${{ github.ref }}  repository... ${{ github.repository }}."
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Exec docker-compose up & test
+        run: |
+          docker-compose -f docker-compose.test.yml up -d --remove-orphan
+          docker-compose exec go sh
+          go test -v ./...
