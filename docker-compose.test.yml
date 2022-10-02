@@ -12,7 +12,7 @@ services:
       - ./:/go/src/app
     environment:
       - "TZ=Asia/Tokyo"
-      - GOLANG_ENV=${GO_ENV_DEV}
+      - GOLANG_ENV=dev
     env_file:
       - mysql/.test.env
     ports:
@@ -37,4 +37,4 @@ services:
     volumes:
       - mysql/init:/docker-entrypoint-initdb.d
     ports:
-      - ${TEST_DB_PORT_DEV}:3306
+      - 3309:3306
