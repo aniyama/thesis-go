@@ -4,45 +4,37 @@ services:
   go:
     build:
       context: ./
-      dockerfile: Dockerfile
-      target: dev
-    container_name: go-test
+      dockerfile: Dockerfile.prod
+      target: builder
+    container_name: ${GO_CONTAINER_NAME_DEV}
+    command: go run main.go
     volumes:
       - ./:/go/src/app
     environment:
       - "TZ=Asia/Tokyo"
-      # - GOLANG_ENV=${GO_ENV_DEV}
+      - GOLANG_ENV=${GO_ENV_DEV}
     env_file:
-      - ./mysql/.env
+      - ./mysql/.test.env
     ports:
-      - 8084:8080
+      - ${GO_PORT_DEV}:8080
     tty: true
     stdin_open: true
     depends_on:
       - test-db
     links:
       - test-db
-    networks:
-      - back-tier-dev
 
   test-db:
     build:
       context: ./mysql
       dockerfile: Dockerfile
-    container_name: test-db
+    container_name: ${TEST_DB_CONTAINER_NAME_DEV}
     tty: true
     stdin_open: true
     env_file:
-      - ./mysql/.env
+      - ./mysql/.test.env
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake --default-time-zone=Asia/Tokyo
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d
     ports:
-      - 3309:3306
-    networks:
-      - back-tier-dev
-
-networks:
-  back-tier-dev:
-    driver: bridge
-    name: back-tier-dev
+      - ${TEST_DB_PORT_DEV}:3306

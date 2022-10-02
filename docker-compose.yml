@@ -18,6 +18,7 @@ services:
       - GOLANG_ENV=${GO_ENV_DEV}
     env_file:
       - ./mysql/.env
+      - ./mysql/.test.env
     ports:
       - ${GO_PORT_DEV}:8080
     tty: true
@@ -28,6 +29,7 @@ services:
       - db
     networks:
       - back-tier-dev
+      - back-tier-test
 
   db:
     build:
@@ -55,7 +57,7 @@ services:
     tty: true
     stdin_open: true
     env_file:
-      - ./mysql/.env
+      - ./mysql/.test.env
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake --default-time-zone=Asia/Tokyo
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d
@@ -63,9 +65,12 @@ services:
     ports:
       - ${TEST_DB_PORT_DEV}:3306
     networks:
-      - back-tier-dev
+      - back-tier-test
 
 networks:
   back-tier-dev:
     driver: bridge
     name: back-tier-dev
+  back-tier-test:
+    driver: bridge
+    name: back-tier-test
