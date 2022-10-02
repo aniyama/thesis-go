@@ -3,15 +3,15 @@ name: Ci flow for ECS
 on: [push]
 
 jobs:
-  build:
-    name: build Dockerfile.prod
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+  # build:
+  #   name: build Dockerfile.prod
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: build Dockerfile.prod
-        run: docker build -t myapp -f Dockerfile.prod .
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: build Dockerfile.prod
+  #       run: docker build -t myapp -f Dockerfile.prod .
 
   test:
     name: test
@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 7
 
     steps:
-      - run: echo "branch... ${{ github.ref }}  repository... ${{ github.repository }}."
+      - run: repository... ${{ github.repository }}."
 
       - name: Checkout
         uses: actions/checkout@v3
