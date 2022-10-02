@@ -29,8 +29,6 @@ jobs:
 
       - name: Exec docker-compose up & test
         run: |
-          ${{PWD}}
-          ${{ls}}
           docker-compose -f docker-compose.test.yml --env-file ../mysql/.env up -d --remove-orphan
           docker-compose -f docker-compose.test.yml --env-file ../mysql/.env exec go sh
           go test -v ./...
