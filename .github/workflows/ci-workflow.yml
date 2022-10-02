@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 7
 
     steps:
-      - run: repository... ${{ github.repository }}."
+      - run: "repository... ${{ github.repository }}."
 
       - name: Checkout
         uses: actions/checkout@v3
