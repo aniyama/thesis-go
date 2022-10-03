@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/DATA-DOG/go-txdb"
-	// _ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
