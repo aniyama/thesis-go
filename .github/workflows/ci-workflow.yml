@@ -21,9 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 7
 
-    steps:
-      # - run: "repository... ${{ github.repository }}."
-      env:
+    env:
       TZ: Asia/Tokyo
       DBMS: mysql
       MYSQL_DATABASE: thesis_db
@@ -32,6 +30,9 @@ jobs:
       MYSQL_ROOT_PASSWORD: anii
       MYSQL_CONTAINER_NAME: db_container_test
       MYSQL_PORT: 3306
+
+    steps:
+      # - run: "repository... ${{ github.repository }}."
 
       - name: Checkout
         uses: actions/checkout@v3
