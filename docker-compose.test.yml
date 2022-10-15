@@ -24,9 +24,7 @@ services:
       - test-db
 
   test-db:
-    build:
-      context: ./mysql
-      dockerfile: Dockerfile
+    image: mysql:8.0
     container_name: db_container_test
     tty: true
     stdin_open: true
