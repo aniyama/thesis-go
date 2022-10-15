@@ -16,6 +16,8 @@ services:
     environment:
       - "TZ=Asia/Tokyo"
       - GOLANG_ENV=dev
+    env_file:
+      - mysql/.test.env
     ports:
       - 8088:8080
     tty: true

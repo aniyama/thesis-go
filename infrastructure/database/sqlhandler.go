@@ -2,6 +2,8 @@ package database
 
 import (
 	"fmt"
+	"log"
+	"time"
 
 	"os"
 
@@ -62,12 +64,26 @@ func InitTestSQLHandler(name string) {
 		DriverName: name,
 		DSN:        CONNECT,
 	})
-	db, err := gorm.Open(dialector, &gorm.Config{})
+	// db, err := gorm.Open(dialector, &gorm.Config{})
+
+	var count = 50
+	var db *gorm.DB
+	var err error
+	// countで指定した回数リトライする
+	for count > 1 {
+		if db, err = gorm.Open(dialector, &gorm.Config{}); err != nil {
+			time.Sleep(time.Second * 2)
+			count--
+			log.Printf("retry... count:%v\n", count)
+			continue
+		}
+		break
+	}
+
 	if err != nil {
 		fmt.Println("testDB接続失敗!!")
 		panic(err)
 	}
-
 	fmt.Println("testDB接続成功!!")
 	sqlHandler := new(SQLHandler)
 	sqlHandler.Db = db
