@@ -37,7 +37,7 @@ jobs:
       - name: Exec docker-compose up DB
         run: |
           docker-compose -f docker-compose.test.yml up -d --remove-orphan
-          docker-compose exec -T db sh -c "mysqladmin --wait --count 60 ping 
+          docker-compose exec -T test-db sh -c "mysqladmin --wait --count 60 ping 
           exit
           docker-compose -f docker-compose.test.yml exec -T go sh
           go test -v ./...
