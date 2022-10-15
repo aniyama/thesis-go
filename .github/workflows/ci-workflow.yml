@@ -36,9 +36,9 @@ jobs:
 
       - name: Exec docker-compose up DB
         run: |
-          docker-compose -f docker-compose.test.yml up test-db -d --remove-orphan
+          docker-compose -f docker-compose.test.yml up test-db --remove-orphan
       - name: Exec docker-compose up Go
         run: |
-          docker-compose -f docker-compose.test.yml up go -d --remove-orphan
+          docker-compose -f docker-compose.test.yml up go --remove-orphan
           docker-compose -f docker-compose.test.yml exec -T go sh
           go test -v ./...
