@@ -49,7 +49,7 @@ services:
       - ./mysql/init:/docker-entrypoint-initdb.d
       - test_mysql_data:/var/lib/mysql
     ports:
-      - 3309:3306
+      - 3306:3306
 
 volumes:
   test_mysql_data:
