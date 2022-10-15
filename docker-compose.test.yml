@@ -30,6 +30,15 @@ services:
     tty: true
     stdin_open: true
     platform: linux/x86_64
+    environment:
+        TZ: Asia/Tokyo
+        DBMS: mysql
+        MYSQL_DATABASE: thesis_db
+        MYSQL_USER: anii
+        MYSQL_PASSWORD: anii
+        MYSQL_ROOT_PASSWORD: anii
+        MYSQL_CONTAINER_NAME: db_container_test
+        MYSQL_PORT: 3306
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake --default-time-zone=Asia/Tokyo
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d
