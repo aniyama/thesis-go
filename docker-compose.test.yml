@@ -1,8 +1,5 @@
 version: "3"
 
-volumes:
-  test_mysql_data:
-
 services:
   go:
     build:
@@ -36,6 +33,6 @@ services:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake --default-time-zone=Asia/Tokyo
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d
-      - test_mysql_data:/var/lib/mysql
+      # - test_mysql_data:/var/lib/mysql
     ports:
       - 3309:3306
