@@ -16,7 +16,6 @@ services:
     environment:
       - "TZ=Asia/Tokyo"
       - GOLANG_ENV=dev
-      - DBMS: mysql
       - MYSQL_DATABASE: thesis_db
       - MYSQL_USER: anii
       - MYSQL_PASSWORD: anii
