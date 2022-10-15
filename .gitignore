@@ -6,4 +6,3 @@ tmp
 /dev.env
 
 /mysql/.env
-/mysql/test.env

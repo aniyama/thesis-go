@@ -1,0 +1,44 @@
+name: Ci flow for ECS
+
+on: [push]
+
+env:
+  TZ: Asia/Tokyo
+  DBMS: mysql
+  MYSQL_DATABASE: thesis_db
+  MYSQL_USER: anii
+  MYSQL_PASSWORD: anii
+  MYSQL_ROOT_PASSWORD: anii
+  MYSQL_CONTAINER_NAME: db_container_test
+  MYSQL_PORT: 3306
+
+jobs:
+  # build:
+  #   name: build Dockerfile.prod
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: build Dockerfile.prod
+  #       run: docker build -t myapp -f Dockerfile.prod .
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+
+    steps:
+      # - run: "repository... ${{ github.repository }}."
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Exec docker-compose up DB
+        run: |
+          docker-compose -f docker-compose.test.yml up -d
+
+      - name: Exec docker-compose up DB
+        run: |
+          docker-compose -f docker-compose.test.yml exec -T go sh
+          go test -v ./...

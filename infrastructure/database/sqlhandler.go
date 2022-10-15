@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/DATA-DOG/go-txdb"
-	// _ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -50,7 +50,7 @@ func InitTestSQLHandler(name string) {
 	DBMS := os.Getenv("DBMS")
 	USER := os.Getenv("MYSQL_USER")
 	PASS := os.Getenv("MYSQL_PASSWORD")
-	PROTOCOL := fmt.Sprintf("tcp(%s:%s)", os.Getenv("TEST_MYSQL_CONTAINER_NAME"), os.Getenv("MYSQL_PORT"))
+	PROTOCOL := fmt.Sprintf("tcp(%s:%s)", os.Getenv("MYSQL_CONTAINER_NAME"), os.Getenv("MYSQL_PORT"))
 	DBNAME := os.Getenv("MYSQL_DATABASE")
 
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&parseTime=true"

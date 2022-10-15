@@ -1,0 +1,9 @@
+FROM golang:1.17.2-alpine
+
+WORKDIR /go/src/app
+
+RUN apk add --no-cache \
+    alpine-sdk \
+    git
+
+CMD ["go", "run", "main.go"]
